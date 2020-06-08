@@ -2,38 +2,38 @@ import React from "react"
 
 class ToDoItem extends React.Component {
 
-    constructor() {
-        super();
-        this.state = {
-            todos: [{
-                id: 1,
-                text: "bla bla", 
-                completed: false,
-            }]
-        }
+    constructor(props) {
+        super(props);
+        this.state = this.props.state;
     }
 
-    toggleSelection = (id) => {
-        this.setState({
-            todos: this.props.todos.map(todo => {
-                if(id === todo.id){
-                    console.log(todo);
-                    return {
-                        ...todo,
-                        completed: !todo.completed
-                    }
-                }
-                else {
-                    return todo
-                }
-            })
-        })        
-    }
+    
 
     render() {
+        let todos = [];
+
+        if(this.props.stateProp.toShow === 'all'){
+            todos = this.props.stateProp.todos;
+        } else if(this.props.stateProp.toShow === 'completed') {
+            todos = this.props.stateProp.todos.filter(todo => todo.completed)
+        } else if(this.props.stateProp.toShow === 'left') {
+            todos = this.props.stateProp.todos.filter(todo => !todo.completed)
+        }
+
         return (
-            this.props.todos.map(todo => {
-            return <h3 key={todo.id} style={{textDecoration: todo.completed? "line-through": ""}} onClick={() => this.toggleSelection(todo.id)}>{todo.text}</h3>
+            todos.map(todo => {
+            return ( 
+                <h3 
+                    key={todo.id} 
+                    style={{
+                        textDecoration: todo.completed? "line-through": "",
+                        color: todo.completed? "gray": ""
+                    }} 
+                    onClick={() => this.props.toggleSelection(todo.id)}
+                > 
+                {todo.text}
+                </h3>
+            )
             })
         )
     }

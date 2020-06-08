@@ -6,11 +6,8 @@ class ToDoList extends React.Component {
     constructor() {
         super();
         this.state = {
-            todos: [{
-                id: 1,
-                text: "bla bla", 
-                completed: false,
-            }]
+            todos: [],
+            toShow: 'all'
         }
     }
 
@@ -20,17 +17,41 @@ class ToDoList extends React.Component {
         })
     }
 
-    // displayToDos = () => {
-    //         this.state.todos.map(todo => {
-    //             return <h3>{todo.text}</h3>
-    //         })
-    // }
+    toggleSelection = (id) => {
+        this.setState({
+            todos: this.state.todos.map(todo => {
+                if(id === todo.id){
+                    return {
+                        id: todo.id,
+                        text: todo.text,
+                        completed: !todo.completed
+                    }
+                }
+                else {
+                    return todo
+                }
+            })
+        })        
+    }
+
+    updateToShowState = (status) => {
+        this.setState({toShow: status})
+    }
 
     render() {
         return (
             <div>
                 <ToDoForm addTodo={this.addToDo} />
-                <ToDoItem todos = {this.state.todos} />
+                
+                <div>Number of tasks left: {this.state.todos.filter(todo => {
+                    return !todo.completed
+                }).length}</div>
+
+                <button onClick={() => this.updateToShowState('all')}>All</button>
+                <button onClick={() => this.updateToShowState('completed')}>Completed</button>
+                <button onClick={() => this.updateToShowState('left')}>To be done</button>
+                
+                <ToDoItem stateProp = {this.state} toggleSelection={this.toggleSelection}/>
             </div>
         )    
     }

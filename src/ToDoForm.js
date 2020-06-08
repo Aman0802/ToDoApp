@@ -31,7 +31,7 @@ class ToDoForm extends React.Component {
         return(
             <div>
                 <form onSubmit={this.handleSubmit}>
-                    <input type="text" value={this.state.text} name="text" onChange={this.handleChange}/>
+                    <input type="text" value={this.state.text} name="text" onChange={this.handleChange} placeholder="Enter todo..."/>
                 </form>
             </div>
         )
