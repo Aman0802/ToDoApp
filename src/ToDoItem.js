@@ -23,16 +23,19 @@ class ToDoItem extends React.Component {
         return (
             todos.map(todo => {
             return ( 
-                <h3 
-                    key={todo.id} 
-                    style={{
-                        textDecoration: todo.completed? "line-through": "",
-                        color: todo.completed? "gray": ""
-                    }} 
-                    onClick={() => this.props.toggleSelection(todo.id)}
-                > 
-                {todo.text}
-                </h3>
+                <div style={{display: 'flex'}}>
+                    <h3 
+                        key={todo.id} 
+                        style={{
+                            textDecoration: todo.completed? "line-through": "",
+                            color: todo.completed? "gray": ""
+                        }} 
+                        onClick={() => this.props.toggleSelection(todo.id)}
+                    > 
+                    {todo.text}
+                    </h3>
+                    <button onClick={() => this.props.deleteToDo(todo.id)}>X</button>
+                </div>
             )
             })
         )

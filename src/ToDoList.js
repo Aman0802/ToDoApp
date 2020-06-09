@@ -7,7 +7,8 @@ class ToDoList extends React.Component {
         super();
         this.state = {
             todos: [],
-            toShow: 'all'
+            toShow: 'all',
+            toggleAll: false
         }
     }
 
@@ -38,6 +39,24 @@ class ToDoList extends React.Component {
         this.setState({toShow: status})
     }
 
+    deleteToDo = (id) => {
+        this.setState({
+            todos: this.state.todos.filter(todo => todo.id !== id)
+        })
+    }
+
+    toggleChange = () => {
+        this.setState({
+            todos: this.state.todos.map(todo => {
+                return {
+                    ...todo,
+                    completed: !this.state.toggleAll,
+                }
+            }),
+            toggleAll: !this.state.toggleAll
+        })
+    }
+
     render() {
         return (
             <div>
@@ -49,9 +68,11 @@ class ToDoList extends React.Component {
 
                 <button onClick={() => this.updateToShowState('all')}>All</button>
                 <button onClick={() => this.updateToShowState('completed')}>Completed</button>
-                <button onClick={() => this.updateToShowState('left')}>To be done</button>
+                <button onClick={() => this.updateToShowState('left')}>To be done</button> <br/>
+
+                {this.state.todos.length?<button onClick={this.toggleChange}>{this.state.toggleAll? "Unmark All" : "Mark All"}</button>:null}
                 
-                <ToDoItem stateProp = {this.state} toggleSelection={this.toggleSelection}/>
+                <ToDoItem stateProp = {this.state} toggleSelection={this.toggleSelection} deleteToDo={this.deleteToDo} />
             </div>
         )    
     }
